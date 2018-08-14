@@ -1,5 +1,5 @@
 var database = firebase.database();
-var USER_ID = window.location.search.match(/\?id=(.*)/)[1];
+var USER_ID = window.location.search.match(/\?id=(.*)&/)[1];
 
 $(document).ready(function(){
   database.ref("posts/" + USER_ID).once('value')
