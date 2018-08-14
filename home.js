@@ -1,5 +1,5 @@
 var database = firebase.database();
-var USER_ID = window.location.search.match(/\?id=(.*)/)[1];
+var USER_ID = window.location.search.match(/\?id=(.*)&/)[1];
 
 $(document).ready(function(){
   database.ref("posts/" + USER_ID).once('value')
@@ -48,8 +48,6 @@ $(document).ready(function(){
   });
 
   function editPost(idPost) {
-    console.log("chamou");
-    console.log(idPost)
     // Função botão editar
     $('button[data-edit-id="edit-' + idPost + '"]').click(function(){
       var spanEdit = $('#span-post-' + idPost)[0];
@@ -64,6 +62,13 @@ $(document).ready(function(){
           spanEdit.removeAttribute("style");
           btnEdit.value = "change";
           btnEdit.textContent = "Edit";
+            // colocar texto no banco de dados
+          btnEdit.click(function(){
+            var newPost = spanEdit.val();
+            var postFromDB = database.ref("posts/" + USER_ID + "/" + idPost).updates({
+              text: newPost
+            });
+          })
         }
         return false;    
     });
