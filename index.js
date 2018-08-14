@@ -28,7 +28,7 @@ $(document).ready(function(){
     // função de login
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(function(response){
-      window.location = "home.html?id=" + response.user.uid;
+      window.location = "home.html?id=" + response.user.uid + "&";
     })
     .catch(function(error) {
         var errorCode = error.code;
