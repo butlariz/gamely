@@ -2,7 +2,6 @@ var database = firebase.database();
 var USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
 $(document).ready(function(){
-
   database.ref("posts/" + USER_ID).once('value')
     .then(function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
@@ -11,40 +10,62 @@ $(document).ready(function(){
         $(".input-list").append(`
           <li>
             <div data-task-id=${childKey} />
-              <span>${childData.text}</span>
+              <span id="span-post-${childKey}">${childData.text}</span>
               <button data-btn-id="btn-${childKey}"> Delete </button>
+              <button data-edit-id="edit-${childKey}" value="change"> Edit </button>
             </div>
           </li>`);
         $(`button[data-btn-id="btn-${childKey}"]`).click(function(){
-          console.log("clicou")
           database.ref("posts/" + USER_ID + "/" + childKey).remove();
           $(this).parent().remove();
         })
+      editPost(childKey);
     });
   });
 
   $(".publish").click(function(event){
     event.preventDefault();
     var newPost = $(".publish-input").val();
-    var taskFromDB = database.ref("posts/" + USER_ID).push({
+    var postFromDB = database.ref("posts/" + USER_ID).push({
       text: newPost
     });
     $(".input-list").append(`
     <li>
-    <div data-task-id=${taskFromDB.key} />
-      <span>${newPost}</span>
-      <button data-btn-id="btn-${taskFromDB.key}"> Delete </button>
-    </div>
-  </li>`);
-    $(`button[data-btn-id="btn-${taskFromDB.key}"]`).click(function(){
-      console.log("clicou")
-      database.ref("posts/" + USER_ID + "/" + taskFromDB.key).remove();
+      <div data-post-id="${postFromDB.key}">
+        <span id="span-post-${postFromDB.key}">${newPost}</span>
+        <button data-btn-id="btn-${postFromDB.key}"> Delete </button>
+        <button data-edit-id="edit-${postFromDB.key}" value="change"> Edit </button>
+      </div>
+    </li>`);
+
+
+    $(`button[data-btn-id="btn-${postFromDB.key}"]`).click(function(){
+      database.ref("posts/" + USER_ID + "/" + postFromDB.key).remove();
       $(this).parent().remove();
     });
 
+    editPost(postFromDB.key);
   });
 
-  // $(".input-list").append("<li>"+newEureka+"</li>");
-  
-  
+  function editPost(idPost) {
+    console.log("chamou");
+    console.log(idPost)
+    // Função botão editar
+    $('button[data-edit-id="edit-' + idPost + '"]').click(function(){
+      var spanEdit = $('#span-post-' + idPost)[0];
+      var btnEdit = $(this)[0];
+        if (btnEdit.value === "change") {
+          spanEdit.setAttribute("contenteditable","true");
+          spanEdit.setAttribute("style","border:1px solid #ababab");
+          btnEdit.value = "save";
+          btnEdit.textContent = "Salvar";
+        } else if (btnEdit.value === "save"){
+          spanEdit.removeAttribute("contenteditable");
+          spanEdit.removeAttribute("style");
+          btnEdit.value = "change";
+          btnEdit.textContent = "Edit";
+        }
+        return false;    
+    });
+  }
 });
