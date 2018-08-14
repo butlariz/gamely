@@ -7,17 +7,16 @@ $(document).ready(function(){
     // função de cadastro
     firebase.auth().createUserWithEmailAndPassword(newEmail, newPassword)
     .then(function(response){
-      var insertUser = database.ref("users/" + USER_ID).push({
+      firebase.database().ref("users/" + response.user.uid).set({
         email: newEmail,
-        password: newPassword,
         name: newName
       });
-      window.location = "home.html?id=" + response.user.uid;
+      // window.location = "home.html?id=" + response.user.uid;
     })
     .catch(function(error) {
-      console.log("erro");
         var errorCode = error.code;
         var errorMessage = error.message;
+        console.log(errorMessage);
       });
 
   })

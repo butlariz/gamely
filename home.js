@@ -21,7 +21,6 @@ $(document).ready(function(){
           $(this).parent().remove();
         })
     });
- 
   });
 
   $(".publish").click(function(event){
