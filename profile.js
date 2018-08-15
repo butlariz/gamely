@@ -1,5 +1,3 @@
-// var database = firebase.database();
-// var USER_ID = window.location.search.match(/\?id=(.*?)&/)[1];
 var PROFILE_ID = findProfileId();
 
 $(document).ready(function(){
@@ -15,7 +13,30 @@ $(document).ready(function(){
       console.log(username);
       $("#profile-name").text(username);
     });
+
+    //Carregar bottão follow ou unfollow
+    database.ref("followers/" + PROFILE_ID).once('value')
+    .then(function(snapshot) {
+      var allFollowers = [];
+      var userFollow;
+      allFollowers.push(snapshot.val().follower);
+      console.log(allFollowers);
+      $.each(allFollowers, function(index, followerID){
+        if(followerID == USER_ID) {
+          $(".profile-button").text("- Unfollow");
+        }
+      });
+    });
   }
+
+  // Botão Seguir
+  $(".profile-button").click(function() {
+    event.preventDefault();
+    var userFollowers = database.ref("followers/" + PROFILE_ID).set({
+      follower: USER_ID
+    });
+    $(this).text("- Unfollow");
+  });
 
   // Carregar postagens
   database.ref("posts/" + PROFILE_ID).once('value')
@@ -23,7 +44,7 @@ $(document).ready(function(){
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key;
         var childData = childSnapshot.val();
-        $(".input-list").append(`
+        $(".input-list").prepend(`
           <li>
             <div data-task-id=${childKey} />
               <span>${childData.text}</span>

@@ -1,5 +1,5 @@
-var database = firebase.database();
-var USER_ID = window.location.search.match(/\?id=(.*)&/)[1];
+// var database = firebase.database();
+// var USER_ID = window.location.search.match(/\?id=(.*)&/)[1];
 
 $(document).ready(function(){
   database.ref("posts/" + USER_ID).once('value')
@@ -7,7 +7,7 @@ $(document).ready(function(){
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key;
         var childData = childSnapshot.val();
-        $(".input-list").append(`
+        $(".input-list").prepend(`
           <li>
             <div data-task-id=${childKey} />
               <span id="span-post-${childKey}">${childData.text}</span>
@@ -31,7 +31,7 @@ $(document).ready(function(){
     var postFromDB = database.ref("posts/" + USER_ID).push({
       text: newPost
     });
-    $(".input-list").append(`
+    $(".input-list").prepend(`
     <li>
       <div data-post-id="${postFromDB.key}">
         <span id="span-post-${postFromDB.key}">${newPost}</span>
