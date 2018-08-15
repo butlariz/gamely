@@ -110,7 +110,7 @@ form.post {
   flex-direction: column;
 }
 
-input.publish-input {
+textarea.publish-input {
   width: 100%;
   border: none;
   border-bottom: 1px solid #cacaca;
