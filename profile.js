@@ -4,39 +4,7 @@ $(document).ready(function(){
   console.log(USER_ID);
   console.log(PROFILE_ID)
   loadNameProfile();
-
-  //Carregar nome 
-  function loadNameProfile(){
-    database.ref("users/" + PROFILE_ID).once('value')
-    .then(function(snapshot) {
-      var username = (snapshot.val().name) || "Anonymous"
-      console.log(username);
-      $("#profile-name").text(username);
-    });
-
-    //Carregar bottão follow ou unfollow
-    database.ref("followers/" + PROFILE_ID).once('value')
-    .then(function(snapshot) {
-      var allFollowers = [];
-      var userFollow;
-      allFollowers.push(snapshot.val().follower);
-      console.log(allFollowers);
-      $.each(allFollowers, function(index, followerID){
-        if(followerID == USER_ID) {
-          $(".profile-button").text("- Unfollow");
-        }
-      });
-    });
-  }
-
-  // Botão Seguir
-  $(".profile-button").click(function() {
-    event.preventDefault();
-    var userFollowers = database.ref("followers/" + PROFILE_ID).set({
-      follower: USER_ID
-    });
-    $(this).text("- Unfollow");
-  });
+  loadButton();
 
   // Carregar postagens
   database.ref("posts/" + PROFILE_ID).once('value')
@@ -73,5 +41,64 @@ function findProfileId() {
     return window.location.search.match(/\&profile=(.*)/)[1]
   } else {
     return window.location.search.match(/\?id=(.*?)&/)[1];
+  }
+}
+
+//Carregar nome 
+function loadNameProfile(){
+  database.ref("users/" + PROFILE_ID).once('value')
+  .then(function(snapshot) {
+    var username = (snapshot.val().name) || "Anonymous"
+    console.log(username);
+    $("#profile-name").text(username);
+  });
+
+  //Carregar bottão follow ou unfollow
+  database.ref("followers/" + PROFILE_ID).once('value')
+  .then(function(snapshot) {
+    var allFollowers = [];
+    var userFollow;
+    var btnProfile = $(".profile-button");
+    allFollowers.push(snapshot.val().follower);
+    console.log(allFollowers);
+    $.each(allFollowers, function(index, followerID){
+      if(followerID == USER_ID) {
+        btnProfile.text("- Unfollow");
+        btnProfile.addClass("unfollow");
+      } else { 
+        btnProfile.text("+ Follow");
+        btnProfile.addClass("follow");
+      }
+    });
+  });
+}
+
+function loadButton(){
+  console.log("função loadButton");
+  if ($(".follow")[0]){
+    // Botão Follow
+    $(".follow").click(function() {
+      event.preventDefault();
+      console.log("entrou no follow");
+      var userFollowers = database.ref("followers/" + PROFILE_ID).set({
+        follower: USER_ID
+      });
+      $(this).text("- Unfollow");
+      $(this).addClass("unfollow");
+      $(this).removeClass("follow")
+    });
+  }
+  if ($(".unfollow")[0]){
+    // Botão Unfollow 
+    $(".unfollow").click(function() {
+      event.preventDefault();
+      console.log("entrou no unfollow");
+      var userFollowers = database.ref("followers/" + PROFILE_ID).remove({
+        follower: USER_ID
+      });
+      $(this).text("+ Follow");
+      $(this).addClass("follow");
+      $(this).removeClass("unfollow")
+    });
   }
 }

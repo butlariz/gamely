@@ -160,6 +160,10 @@ div#profile-picture {
   height: 50vw;
   background-color: #fdcece;
   border-radius: 360px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #d86d6d;
 }
 
 div#profile-name {

@@ -12,8 +12,8 @@ $(document).ready(function(){
             <div data-task-id=${childKey} />
               <span id="span-post-${childKey}">${childData.text}</span>
               <footer>
-              <button data-btn-id="btn-${childKey}"> Delete </button>
-              <button data-edit-id="edit-${childKey}" value="change"> Edit </button>
+              <button data-btn-id="btn-${childKey}"> <i class="far fa-trash-alt"></i> </button>
+              <button data-edit-id="edit-${childKey}" value="change"> <i class="fas fa-pencil-alt"></i> </button>
               </footer>
             </div>
           </li>`);
@@ -36,8 +36,8 @@ $(document).ready(function(){
       <div data-post-id="${postFromDB.key}">
         <span id="span-post-${postFromDB.key}">${newPost}</span>
         <footer>
-        <button data-btn-id="btn-${postFromDB.key}"> Delete </button>
-        <button data-edit-id="edit-${postFromDB.key}" value="change"> Edit </button>
+        <button data-btn-id="btn-${postFromDB.key}"> <i class="far fa-trash-alt"></i> </button>
+        <button data-edit-id="edit-${postFromDB.key}" value="change"> <i class="fas fa-pencil-alt"></i> </button>
         </footer>
       </div>
     </li>`);
@@ -60,12 +60,12 @@ $(document).ready(function(){
           spanEdit.setAttribute("contenteditable","true");
           spanEdit.setAttribute("style","border:1px solid #ababab");
           btnEdit.value = "save";
-          btnEdit.textContent = "Salvar";
+          btnEdit.innerHTML = '<i class="far fa-save"></i>';
         } else if (btnEdit.value === "save"){
           spanEdit.removeAttribute("contenteditable");
           spanEdit.removeAttribute("style");
           btnEdit.value = "change";
-          btnEdit.textContent = "Edit";
+          btnEdit.innerHTML = '<i class="fas fa-pencil-alt"></i>';
             // colocar texto no banco de dados
           btnEdit.click(function(){
             var newPost = spanEdit.val();
