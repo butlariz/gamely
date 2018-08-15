@@ -11,8 +11,10 @@ $(document).ready(function(){
           <li>
             <div data-task-id=${childKey} />
               <span id="span-post-${childKey}">${childData.text}</span>
+              <footer>
               <button data-btn-id="btn-${childKey}"> Delete </button>
               <button data-edit-id="edit-${childKey}" value="change"> Edit </button>
+              </footer>
             </div>
           </li>`);
         $(`button[data-btn-id="btn-${childKey}"]`).click(function(){
@@ -33,8 +35,10 @@ $(document).ready(function(){
     <li>
       <div data-post-id="${postFromDB.key}">
         <span id="span-post-${postFromDB.key}">${newPost}</span>
+        <footer>
         <button data-btn-id="btn-${postFromDB.key}"> Delete </button>
         <button data-edit-id="edit-${postFromDB.key}" value="change"> Edit </button>
+        </footer>
       </div>
     </li>`);
 

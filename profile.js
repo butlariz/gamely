@@ -1,13 +1,11 @@
-var database = firebase.database();
-var USER_ID = window.location.search.match(/\?id=(.*?)&/)[1];
-console.log(USER_ID)
+// var database = firebase.database();
+// var USER_ID = window.location.search.match(/\?id=(.*?)&/)[1];
 var PROFILE_ID = findProfileId();
 
 $(document).ready(function(){
   console.log(USER_ID);
   console.log(PROFILE_ID)
   loadNameProfile();
-  loadNameUser();
 
   //Carregar nome 
   function loadNameProfile(){
@@ -16,15 +14,6 @@ $(document).ready(function(){
       var username = (snapshot.val().name) || "Anonymous"
       console.log(username);
       $("#profile-name").text(username);
-    });
-  }
-
-  function loadNameUser(){
-    database.ref("users/" + USER_ID).once('value')
-    .then(function(snapshot) {
-      var username = (snapshot.val().name) || "Anonymous"
-      console.log(username);
-      $(".a-user-profile").text(username);
     });
   }
 
@@ -38,7 +27,7 @@ $(document).ready(function(){
           <li>
             <div data-task-id=${childKey} />
               <span>${childData.text}</span>
-              <button data-btn-id="btn-${childKey}"> Delete </button>
+              <footer><button data-btn-id="btn-${childKey}"> Delete </button></footer>
             </div>
           </li>`);
         $(`button[data-btn-id="btn-${childKey}"]`).click(function(){
@@ -56,16 +45,6 @@ $(document).ready(function(){
   $(".lari").click(function() {
     window.location = window.location.href + 'profile=' + 'kn5DOxGCXPWcu9mUyO86uDqbe642';
   });
-
-  // Links do menu
-  $(".a-home").click(function() {
-    window.location = "home.html?id=" + USER_ID + "&";
-  });
-
-  $(".a-user-profile").click(function() {
-    window.location = "profile.html?id=" + USER_ID + "&";
-  });
-
 });
 
 function findProfileId() {

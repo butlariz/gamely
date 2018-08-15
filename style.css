@@ -2,6 +2,72 @@ body {
   background-color: #f1f1f1;
 }
 
+body.index {
+  background-image: url("images/bgloginmob.jpg");
+}
+
+section {
+  margin: 30px;
+}
+
+h1 {
+  font-family: 'Russo One', sans-serif;
+}
+
+button.btn-custom {
+  font-family: 'Russo One', sans-serif;
+  text-transform: uppercase;
+  background-color: #8c94c5;
+  color: #fff;
+  border: none;
+  padding: 6px 17px;
+  margin-left: 10px;
+}
+
+/* Tela Inicial */
+header {
+  height: 34vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+header h1 {
+  font-size: 5rem;
+  color: #fff;
+}
+
+form.login-page {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+form.login-page label {
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+form.login-page input {
+  width: 100%;
+  border: 2px solid #fff;
+  padding: 10px;
+  background-color: transparent;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+footer.footer-index {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+/* Menu */
 nav {
   background-color: #000;
   color: #fff;
@@ -10,6 +76,7 @@ nav {
 
 nav h1 {
   font-size: 2rem;
+  margin: 0px;
 }
 
 ul.container {
@@ -17,6 +84,7 @@ ul.container {
   display: flex;
   align-items: center;
   margin-bottom: 0px;
+  justify-content: space-between;
 }
 
 ul.container li {
@@ -25,12 +93,62 @@ ul.container li {
 
 ul.container li a {
   color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
-section {
-  margin: 30px;
+/* Post Area */
+form.post {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 30px;
+  box-shadow: 2px 2px 4px #dadada;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
 }
 
+input.publish-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #cacaca;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+button.publish {
+  width: 105px;
+  align-self: flex-end;
+  margin-top: 20px;
+}
+
+/* Posts list */
+ul.input-list {
+  list-style: none;
+  padding: 0;
+}
+
+ul.input-list li {
+  background-color: #fff;
+  padding: 30px;
+  box-shadow: 2px 2px 4px #dadada;
+  border-radius: 5px;
+  margin-bottom: 11px;
+}
+
+ul.input-list button {
+  margin-right: 7px;
+}
+
+ul.input-list footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Profile */
 section#profile {
   display: flex;
   flex-direction: column;
@@ -46,15 +164,34 @@ div#profile-picture {
 
 div#profile-name {
   font-size: 2rem;
+  font-family: 'Russo One', sans-serif;
 }
 
-ul.input-list {
-  list-style: none;
-  padding: 0;
+.logout {
+  bottom: 0%;
+  text-align: center;
 }
 
-ul.input-list li {
-  background-color: #fff;
-  padding: 30px;
-  border: 1px solid #ccc;
+a.a-logout {
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 3px;
+  border-bottom: 1px solid;
+}
+
+@media screen and (min-width: 576px) {
+  body.index {
+    background-image: url("images/bgloginlg.jpg");
+  }
+  
+  main {
+    width: 576px;
+    margin: auto;
+  }
+
+  div#profile-picture {
+    width: 200px;
+    height: 200px;
+  }
 }
