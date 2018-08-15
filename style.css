@@ -61,12 +61,6 @@ form.login-page input {
   font-size: 1.5rem;
 }
 
-footer.footer-index {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 30px;
-}
-
 /* Menu */
 nav {
   background-color: #000;
@@ -110,6 +104,13 @@ form.post {
   flex-direction: column;
 }
 
+footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 input.publish-input {
   width: 100%;
   border: none;
@@ -118,10 +119,18 @@ input.publish-input {
   word-break: break-word;
 }
 
+.filters {
+  top: 3px;
+  position: relative;
+}
+
+.filters label {
+  margin-right: 10px;
+}
+
 button.publish {
   width: 105px;
   align-self: flex-end;
-  margin-top: 20px;
 }
 
 /* Posts list */
@@ -140,12 +149,6 @@ ul.input-list li {
 
 ul.input-list button {
   margin-right: 7px;
-}
-
-ul.input-list footer {
-  margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
 }
 
 /* Profile */
@@ -182,6 +185,12 @@ a.a-logout {
   letter-spacing: 2px;
   padding: 3px;
   border-bottom: 1px solid;
+}
+
+footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media screen and (min-width: 576px) {

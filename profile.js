@@ -1,10 +1,7 @@
 var PROFILE_ID = findProfileId();
 
 $(document).ready(function(){
-  console.log(USER_ID);
-  console.log(PROFILE_ID);
   loadNameProfile();
-  loadButton();
 
   // Carregar postagens
   database.ref("posts/" + PROFILE_ID).once('value')
@@ -38,6 +35,10 @@ $(document).ready(function(){
   $(".lari").click(function() {
     window.location = window.location.href + 'profile=' + 'kn5DOxGCXPWcu9mUyO86uDqbe642';
   });
+
+  $(".carol").click(function() {
+    window.location = window.location.href + 'profile=' + 'NnC3FWEN4AM4vMdBHudiwL9VTg43';
+  });
 });
 
 function findProfileId() {
@@ -53,37 +54,47 @@ function loadNameProfile(){
   database.ref("users/" + PROFILE_ID).once('value')
   .then(function(snapshot) {
     var username = (snapshot.val().name) || "Anonymous"
-    console.log(username);
     $("#profile-name").text(username);
   });
 
   //Carregar bottão follow ou unfollow
-  database.ref("followers/" + PROFILE_ID).once('value')
-  .then(function(snapshot) {
-    var allFollowers = [];
-    var userFollow;
-    var btnProfile = $(".profile-button");
-    allFollowers.push(snapshot.val().follower);
-    console.log(allFollowers);
-    $.each(allFollowers, function(index, followerID){
-      if(followerID == USER_ID) {
-        btnProfile.text("- Unfollow");
-        btnProfile.addClass("unfollow");
-      } else { 
+  if (USER_ID != PROFILE_ID) {
+    console.log("é diferente")
+    database.ref("followers/" + PROFILE_ID).once('value')
+    .then(function(snapshot) {
+      var allFollowers = [];
+      var userFollow;
+      var btnProfile = $(".profile-button");
+      if (snapshot.val() == null) {
         btnProfile.text("+ Follow");
         btnProfile.addClass("follow");
+        loadButton();
+      } else {
+        allFollowers.push(snapshot.val().follower);
+        console.log("seguidores: " + allFollowers);
+        $.each(allFollowers, function(index, followerID){
+          if(followerID == USER_ID) {
+            btnProfile.text("- Unfollow");
+            btnProfile.addClass("unfollow");
+            loadButton();
+          } else { 
+            btnProfile.text("+ Follow");
+            btnProfile.addClass("follow");
+            loadButton();
+          }
+        });
       }
     });
-  });
+  }
 }
 
 function loadButton(){
-  console.log("função loadButton");
   if ($(".follow")[0]){
+    console.log("botao follow existe")
     // Botão Follow
     $(".follow").click(function() {
+      console.log("cliquei em seguir")
       event.preventDefault();
-      console.log("entrou no follow");
       var userFollowers = database.ref("followers/" + PROFILE_ID).set({
         follower: USER_ID
       });
@@ -96,10 +107,7 @@ function loadButton(){
     // Botão Unfollow 
     $(".unfollow").click(function() {
       event.preventDefault();
-      console.log("entrou no unfollow");
-      var userFollowers = database.ref("followers/" + PROFILE_ID).remove({
-        follower: USER_ID
-      });
+      var userFollowers = database.ref("followers/" + PROFILE_ID).remove();
       $(this).text("+ Follow");
       $(this).addClass("follow");
       $(this).removeClass("unfollow")

@@ -10,14 +10,12 @@ function loadNameUser(){
   database.ref("users/" + USER_ID).once('value')
   .then(function(snapshot) {
     var username = (snapshot.val().name) || "Anonymous"
-    console.log(username);
     $(".a-user-profile").text("Olá, " + username);
   });
 }
 
 // Função botão editar
 function editPost(idPost) {
-  console.log("chamou função edit")
   $('button[data-edit-id="edit-' + idPost + '"]').click(function(){
     var spanEdit = $('#span-post-' + idPost)[0];
     var btnEdit = $(this)[0];
