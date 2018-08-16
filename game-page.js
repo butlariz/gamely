@@ -1,7 +1,10 @@
 var PROFILE_ID = findProfileId();
 
 $(document).ready(function(){
+  console.log(USER_ID);
+  console.log(PROFILE_ID);
   loadNameProfile();
+  // loadButton();
 
   // Carregar postagens
   database.ref("posts/" + PROFILE_ID).once('value')
@@ -40,60 +43,41 @@ function findProfileId() {
 function loadNameProfile(){
   database.ref("games/" + PROFILE_ID).once('value')
   .then(function(snapshot) {
-    if (snapshot.val() != null) {
-      var username = (snapshot.val().name);  
-      var textDescription = (snapshot.val().description);
-      $("#profile-name").text(username);
-      $("#profile-description").text(textDescription);
-    } else {
-      database.ref("users/" + PROFILE_ID).once('value')
-      .then(function(snapshot) {
-        var username = (snapshot.val().name);  
-        $("#profile-name").text(username);
-        loadAnotherUsers()
-      });
-    }
+    var username = (snapshot.val().name);
+    var textDescription = (snapshot.val().description);
+    console.log(textDescription);
+    $("#profile-name").text(username);
+    $("#profile-description").text(textDescription );
   });
 
   //Carregar bottão follow ou unfollow
-  if (USER_ID != PROFILE_ID) {
-    console.log("é diferente");
-    database.ref("followers/" + PROFILE_ID).once('value')
-    .then(function(snapshot) {
-      var allFollowers = [];
-      var userFollow;
-      var btnProfile = $(".profile-button");
-      if (snapshot.val() == null) {
-        btnProfile.text("+ Follow");
-        btnProfile.addClass("follow");
-        loadButton();
-      } else {
-        allFollowers.push(snapshot.val().follower);
-        console.log("seguidores: " + allFollowers);
-        $.each(allFollowers, function(index, followerID){
-          if(followerID == USER_ID) {
-            btnProfile.text("- Unfollow");
-            btnProfile.addClass("unfollow");
-            loadButton();
-          } else { 
-            btnProfile.text("+ Follow");
-            btnProfile.addClass("follow");
-            loadButton();
-          }
-        });
-      }
-    });
-  }
+  // database.ref("followers/" + PROFILE_ID).once('value')
+  // .then(function(snapshot) {
+  //   var allFollowers = [];
+  //   var userFollow;
+  //   var btnProfile = $(".profile-button");
+  //   allFollowers.push(snapshot.val().follower);
+  //   console.log(allFollowers);
+  //   $.each(allFollowers, function(index, followerID){
+  //     if(followerID == USER_ID) {
+  //       btnProfile.text("- Unfollow");
+  //       btnProfile.addClass("unfollow");
+  //     } else { 
+  //       btnProfile.text("+ Follow");
+  //       btnProfile.addClass("follow");
+  //     }
+  //   });
+  // });
 }
 
 function loadButton(){
+  console.log("função loadButton");
   if ($(".follow")[0]){
-    console.log("botao follow existe")
     // Botão Follow
     $(".follow").click(function() {
-      console.log("cliquei em seguir")
       event.preventDefault();
-      var userFollowers = database.ref("followers/" + PROFILE_ID).push({
+      console.log("entrou no follow");
+      var userFollowers = database.ref("followers/" + PROFILE_ID).set({
         follower: USER_ID
       });
       $(this).text("- Unfollow");
@@ -105,7 +89,10 @@ function loadButton(){
     // Botão Unfollow 
     $(".unfollow").click(function() {
       event.preventDefault();
-      var userFollowers = database.ref("followers/" + PROFILE_ID).remove();
+      console.log("entrou no unfollow");
+      var userFollowers = database.ref("followers/" + PROFILE_ID).remove({
+        follower: USER_ID
+      });
       $(this).text("+ Follow");
       $(this).addClass("follow");
       $(this).removeClass("unfollow")
@@ -116,18 +103,9 @@ function loadButton(){
 $(".publish").click(function(event){
   event.preventDefault();
   var newPost = $(".publish-input").val();
-  var newTagGame = $(".game-input").val();
-  console.log(newTagGame);
-  if (newTagGame != "") {
-    var postFromDB = database.ref("posts/" + USER_ID).push({
-      text: newPost,
-      gametag: newTagGame
-    });
-  } else {
-    var postFromDB = database.ref("posts/" + USER_ID).push({
-      text: newPost
-    });
-  }
+  var postFromDB = database.ref("posts/" + USER_ID).push({
+    text: newPost
+  });
   $(".input-list").prepend(`
   <li>
     <div data-post-id="${postFromDB.key}">
@@ -147,17 +125,3 @@ $(".publish").click(function(event){
 
   editPost(postFromDB.key);
 });
-
-// Chamar outros perfis cadastrados
-function loadAnotherUsers(){
-  $(".other-profiles").append("<h2>Encontre outros jogares: </h2>");
-  database.ref("users/").once('value')
-    .then(function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        var otherUsersID = childSnapshot.key;
-        var otherUsersNames = childSnapshot.val().name;
-        var url = window.location.href + 'profile=' + otherUsersID;
-        $(".other-profiles").append("<li><a href='" + url + "'>" + otherUsersNames + "</a></li>");
-    });
-  });
-}

@@ -1,32 +1,34 @@
 $(document).ready(function(){
-  database.ref("posts/").once('value')
-    .then(function(snapshot) {
-      snapshot.forEach(function(snapshotID) {
-        console.log(snapshotID.val())
-        snapshotID.forEach(function(childSnapshot) {
-          var childKey = childSnapshot.key;
-          var childData = childSnapshot.val();
-          if(childData.type == "public") {
-            $(".input-list").prepend(`
-              <li>
-                <div data-post-id=${childKey} />
-                  <span id="span-post-${childKey}">${childData.text}</span>
-                  <footer>
-                  <button data-btn-id="btn-${childKey}"> <i class="far fa-trash-alt"></i> </button>
-                  <button data-edit-id="edit-${childKey}" value="change"> <i class="fas fa-pencil-alt"></i> </button>
-                  </footer>
-                </div>
-              </li>`);
-            $(`button[data-btn-id="btn-${childKey}"]`).click(function(){
-              database.ref("posts/" + USER_ID + "/" + childKey).remove();
-              $(this).parent().remove();
-            })
-          editPost(childKey);
-        }
-      });
-    });
-  });
+  loadPosts();
 
+  //Definir qual filtro mostrar
+  function loadPosts() {
+    // Carregar postagens
+    database.ref("posts/" + USER_ID).once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var childKey = childSnapshot.key;
+        var childData = childSnapshot.val();
+        $(".input-list").prepend(`
+          <li>
+            <div data-task-id=${childKey} />
+              <span>${childData.text}</span>
+              <footer>
+              <button data-btn-id="btn-${childKey}"> <i class="far fa-trash-alt"></i>  </button>
+              <button data-edit-id="edit-${childKey}" value="change"> <i class="fas fa-pencil-alt"></i> </button>
+              </footer>
+            </div>
+          </li>`);
+        $(`button[data-btn-id="btn-${childKey}"]`).click(function(){
+          database.ref("posts/" + USER_ID + "/" + childKey).remove();
+          $(this).parent().remove();
+        })
+      editPost(childKey);
+      });
+   });
+  }
+  
+  //Botão para publicar
   $(".publish").click(function(event){
     event.preventDefault();
     var filterType = $('input[name=filter]:checked').val(); 
@@ -59,6 +61,14 @@ $(document).ready(function(){
     }
   });
 
+  // Botão para escolher filtro para ver posts
+  $(".btn-choose").click(function(event){
+    event.preventDefault();
+    $(".input-list").text("");
+    var filterType = $('input[name=choose]:checked').val(); 
+    loadPosts();
+  });
+
   function editPost(idPost) {
     // Função botão editar
     $('button[data-edit-id="edit-' + idPost + '"]').click(function(){
@@ -85,4 +95,15 @@ $(document).ready(function(){
         return false;
     });
   }
+
+    // Carregar jogos
+    database.ref("games/").once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var otherUsersID = childSnapshot.key;
+        var otherUsersNames = childSnapshot.val().name;
+        var url = "profile.html?id=" + USER_ID + "&profile=" + otherUsersID;
+        $(".all-games").append("<a href='" + url + "'><li>" + otherUsersNames + "</li></a>");
+    });
+  });
 });

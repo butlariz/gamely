@@ -1,16 +1,22 @@
 var database = firebase.database();
 var USER_ID = window.location.search.match(/\?id=(.*?)&/)[1];
 
-$(document).ready(function(){
-  loadNameUser();
-});
-
 //Carregar nome 
+loadNameUser();
 function loadNameUser(){
-  database.ref("users/" + USER_ID).once('value')
+  database.ref("games/" + USER_ID).once('value')
   .then(function(snapshot) {
-    var username = (snapshot.val().name) || "Anonymous"
-    $(".a-user-profile").text("Olá, " + username);
+    if (snapshot.val() != null) {
+      var username = (snapshot.val().name);  
+      $(".a-user-profile").text("Olá, " + username);
+    } else {
+      database.ref("users/" + USER_ID).once('value')
+      .then(function(snapshot) {
+        var username = (snapshot.val().name);  
+
+        $(".a-user-profile").text("Olá, " + username);
+      });
+    }
   });
 }
 
