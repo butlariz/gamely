@@ -3,44 +3,41 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Gamely Home</title>
+  <title>Gamely</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous" />
   <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
-  <script src="firebase-config.js"></script> 
+  <script src="firebase-config.js"></script>
 </head>
-<body>
-  <nav> 
-    <ul class="container">
-      <li><h1>Gamely</h1></li>
-      <li><a class="a-home"> Início </a></li>
-      <li class="user-profile"><a class="a-user-profile"> </a></li>
-    </ul>
-  </nav>
+<body class="index">
+  <header>
+    <h1> Gamely </h1> 
+  </header>
   <main>
-    <div class="all-games"> </div>
     <section>
-      <form class="post">
-        <textarea class="publish-input" cols="30" rows="5"></textarea>
-        
-        <button class="publish btn-custom">Publish</button>
+      <form class="login-page">
+        <label>E-mail<input class="sign-game-email" type="text"></label>
+        <label>Senha<input class="sign-game-password" type="password"></label>
+        <label>Nome do Jogo<input class="sign-game-name" type="text"></label>
+        <label>CNPJ<input class="sign-game-cnpj" type="text"></label>
+        <label>Descrição do jogo<input class="sign-game-description" type="text"></label>
+        <footer class="footer-index"> 
+          <button class="sign-game-button btn-custom">SignUp</button>
+          <button class="log-game-button btn-custom">Login</button>
+        </footer>
       </form>
-    </section>
-    <section>
-      <div class="view-filter"> </div> 
-      <ul class="input-list"></ul>
+
+    <div class="center"><a class="a-login" href="index.html"> Cadastrar jogador </a></div>
     </section>
   </main>
-  <div class="logout"><a class="a-logout" href="index.html"> Sair </a></div>
-
   <script  src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
-  <script src="app.js"></script>
-  <script src="home.js"></script>
+  <script src="game-index.js"></script>
+
 </body>
 </html>

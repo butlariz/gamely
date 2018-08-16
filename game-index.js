@@ -1,15 +1,20 @@
 $(document).ready(function(){
-  $(".sign-up-button").click(function(event){
+  $(".sign-game-button").click(function(event){
     event.preventDefault();
-    var newName = $(".sign-up-name").val();
-    var newEmail = $(".sign-up-email").val();
-    var newPassword = $(".sign-up-password").val();
+    var newEmail = $(".sign-game-email").val();
+    var newPassword = $(".sign-game-password").val();
+    // Dados para cadastrar no banco
+    var newName = $(".sign-game-name").val();
+    var newCnpj = $(".sign-game-cnpj").val();
+    var newDescription = $(".sign-game-description").val();
     // função de cadastro
     firebase.auth().createUserWithEmailAndPassword(newEmail, newPassword)
     .then(function(response){
-      firebase.database().ref("users/" + response.user.uid).set({
+      firebase.database().ref("games/" + response.user.uid).set({
         email: newEmail,
-        name: newName
+        name: newName,
+        cnpj: newCnpj,
+        description: newDescription
       });
       $("form").append("<span class='message'> Cadastrado com sucesso! </span>");
       // window.location = "home.html?id=" + response.user.uid + "&";
@@ -22,10 +27,10 @@ $(document).ready(function(){
       });
   });
 
-  $(".log-in-button").click(function(event){
+  $(".log-game-button").click(function(event){
     event.preventDefault();
-    var email = $(".sign-up-email").val();
-    var password = $(".sign-up-password").val();
+    var email = $(".sign-game-email").val();
+    var password = $(".sign-game-password").val();
     // função de login
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(function(response){

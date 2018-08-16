@@ -22,25 +22,30 @@
     </ul>
   </nav>
   <main>
-    <div class="all-games"> </div>
+    <section id="profile">
+      <div id="profile-picture"> +Add photo </div>
+      <div id="profile-name"></div>
+      <div id="profile-description"></div>
+      <button class="profile-button"> + Follow Game</button>
+    </section>
     <section>
       <form class="post">
-        <textarea class="publish-input" cols="30" rows="5"></textarea>
-        
+        <input class="publish-input" type="text">
         <button class="publish btn-custom">Publish</button>
       </form>
     </section>
     <section>
-      <div class="view-filter"> </div> 
       <ul class="input-list"></ul>
     </section>
   </main>
-  <div class="logout"><a class="a-logout" href="index.html"> Sair </a></div>
 
+  <div class="logout"><a class="a-logout" href="index.html"> Sair </a></div>
+  
   <script  src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
   <script src="app.js"></script>
-  <script src="home.js"></script>
+  <script src="game-page.js"></script>
+
 </body>
 </html>

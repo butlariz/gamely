@@ -77,4 +77,15 @@ $(document).ready(function(){
         return false;
     });
   }
+
+    // Carregar jogos
+    database.ref("games/").once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var otherUsersID = childSnapshot.key;
+        var otherUsersNames = childSnapshot.val().name;
+        var url = "profile.html?id=" + USER_ID + "&profile=" + otherUsersID;
+        $(".all-games").append("<a href='" + url + "'><li>" + otherUsersNames + "</li></a>");
+    });
+  });
 });

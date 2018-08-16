@@ -3,9 +3,8 @@ var PROFILE_ID = findProfileId();
 $(document).ready(function(){
   console.log(USER_ID);
   console.log(PROFILE_ID);
-
   loadNameProfile();
-  // loadButton(); 
+  // loadButton();
 
   // Carregar postagens
   database.ref("posts/" + PROFILE_ID).once('value')
@@ -44,19 +43,11 @@ function findProfileId() {
 function loadNameProfile(){
   database.ref("games/" + PROFILE_ID).once('value')
   .then(function(snapshot) {
-    if (snapshot.val() != null) {
-      var username = (snapshot.val().name);  
-      var textDescription = (snapshot.val().description);
-      $("#profile-name").text(username);
-      $("#profile-description").text(textDescription);
-    } else {
-      database.ref("users/" + PROFILE_ID).once('value')
-      .then(function(snapshot) {
-        var username = (snapshot.val().name);  
-        $("#profile-name").text(username);
-        loadAnotherUsers()
-      });
-    }
+    var username = (snapshot.val().name);
+    var textDescription = (snapshot.val().description);
+    console.log(textDescription);
+    $("#profile-name").text(username);
+    $("#profile-description").text(textDescription );
   });
 
   //Carregar bottão follow ou unfollow
@@ -112,18 +103,9 @@ function loadButton(){
 $(".publish").click(function(event){
   event.preventDefault();
   var newPost = $(".publish-input").val();
-  var newTagGame = $(".game-input").val();
-  console.log(newTagGame);
-  if (newTagGame != "") {
-    var postFromDB = database.ref("posts/" + USER_ID).push({
-      text: newPost,
-      gametag: newTagGame
-    });
-  } else {
-    var postFromDB = database.ref("posts/" + USER_ID).push({
-      text: newPost
-    });
-  }
+  var postFromDB = database.ref("posts/" + USER_ID).push({
+    text: newPost
+  });
   $(".input-list").prepend(`
   <li>
     <div data-post-id="${postFromDB.key}">
@@ -143,17 +125,3 @@ $(".publish").click(function(event){
 
   editPost(postFromDB.key);
 });
-
-// Chamar outros perfis cadastrados
-function loadAnotherUsers(){
-  $(".other-profiles").append("<h2>Encontre outros jogares: </h2>");
-  database.ref("users/").once('value')
-    .then(function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        var otherUsersID = childSnapshot.key;
-        var otherUsersNames = childSnapshot.val().name;
-        var url = window.location.href + 'profile=' + otherUsersID;
-        $(".other-profiles").append("<li><a href='" + url + "'>" + otherUsersNames + "</a></li>");
-    });
-  });
-}

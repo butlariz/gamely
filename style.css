@@ -1,9 +1,14 @@
 body {
-  background-color: #f1f1f1;
+  background-color: #edeef1;
 }
 
 body.index {
   background-image: url("images/bgloginmob.jpg");
+}
+
+main {
+  margin-top: 58px;
+  position: relative;
 }
 
 section {
@@ -12,6 +17,23 @@ section {
 
 h1 {
   font-family: 'Russo One', sans-serif;
+}
+
+h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #8c94c5;
+}
+
+a {
+  color: #000;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  margin: 50px;
 }
 
 button.btn-custom {
@@ -67,11 +89,30 @@ footer.footer-index {
   margin-top: 30px;
 }
 
+span.message {
+  font-weight: bold;
+  color: #fff;
+  margin-top: 30px;
+  font-size: 1.5rem;
+}
+
+a.a-login {
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid;
+}
+
 /* Menu */
 nav {
   background-color: #000;
   color: #fff;
   padding: 10px;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+  top: 0px;
 }
 
 nav h1 {
@@ -97,6 +138,28 @@ ul.container li a {
   letter-spacing: 1px;
   font-weight: bold;
   letter-spacing: 2px;
+}
+
+/* Lista de jogos */
+.all-games {
+  margin-top: 90px;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0px 30px;
+  overflow: auto;
+}
+
+.all-games li {
+  list-style: none;
+  background-color: #97c58c;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  font-weight: bold;
+  text-align: center;
 }
 
 /* Post Area */
@@ -153,6 +216,10 @@ section#profile {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #000;
+  color: #fff;
+  margin: 0px;
+  padding: 30px;
 }
 
 div#profile-picture {
@@ -169,6 +236,23 @@ div#profile-picture {
 div#profile-name {
   font-size: 2rem;
   font-family: 'Russo One', sans-serif;
+  margin-top: 14px;
+}
+
+div#profile-description {
+  padding: 10px 20px 20px 20px;
+  text-align: center;
+}
+
+.other-profiles li {
+  background-color: #fff;
+  list-style: none;
+  padding: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
 }
 
 .logout {
@@ -184,7 +268,7 @@ a.a-logout {
   border-bottom: 1px solid;
 }
 
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 577px) {
   body.index {
     background-image: url("images/bgloginlg.jpg");
   }
@@ -192,7 +276,8 @@ a.a-logout {
   main {
     width: 576px;
     margin: auto;
-  }
+    position: relative;
+}
 
   div#profile-picture {
     width: 200px;
