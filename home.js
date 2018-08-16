@@ -1,33 +1,45 @@
 $(document).ready(function(){
-  loadPosts();
+  definePostFilter("all");
 
   //Definir qual filtro mostrar
-  function loadPosts() {
-    // Carregar postagens
-    database.ref("posts/" + USER_ID).once('value')
-    .then(function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        var childKey = childSnapshot.key;
-        var childData = childSnapshot.val();
-        $(".input-list").prepend(`
-          <li>
-            <div data-task-id=${childKey} />
-              <span>${childData.text}</span>
-              <footer>
-              <button data-btn-id="btn-${childKey}"> <i class="far fa-trash-alt"></i>  </button>
-              <button data-edit-id="edit-${childKey}" value="change"> <i class="fas fa-pencil-alt"></i> </button>
-              </footer>
-            </div>
-          </li>`);
-        $(`button[data-btn-id="btn-${childKey}"]`).click(function(){
-          database.ref("posts/" + USER_ID + "/" + childKey).remove();
-          $(this).parent().remove();
-        })
-      editPost(childKey);
+  function definePostFilter(filterChoosed) {
+   database.ref("posts/").once('value')
+      .then(function(snapshot) {
+        snapshot.forEach(function(snapshotID) {
+          snapshotID.forEach(function(childSnapshot) {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+            if (filterChoosed == "all") {
+              loadPosts(childKey,childData);
+            } else {
+            if(childData.type == filterChoosed) {
+              loadPosts(childKey,childData);
+            }
+          }
+        });
       });
-   });
+    });
   }
   
+  //Carregar posts de acordo com filtro
+  function loadPosts(key,data){
+    $(".input-list").prepend(`
+      <li>
+        <div data-post-id=${key} />
+          <span id="span-post-${key}">${data.text}</span>
+          <footer>
+          <button data-btn-id="btn-${key}"> <i class="far fa-trash-alt"></i> </button>
+          <button data-edit-id="edit-${key}" value="change"> <i class="fas fa-pencil-alt"></i> </button>
+          </footer>
+        </div>
+      </li>`);
+    $(`button[data-btn-id="btn-${key}"]`).click(function(){
+      database.ref("posts/" + USER_ID + "/" + key).remove();
+      $(this).parent().remove();
+    })
+   editPost(key);
+  }
+
   //Botão para publicar
   $(".publish").click(function(event){
     event.preventDefault();
@@ -66,7 +78,7 @@ $(document).ready(function(){
     event.preventDefault();
     $(".input-list").text("");
     var filterType = $('input[name=choose]:checked').val(); 
-    loadPosts();
+    definePostFilter(filterType);
   });
 
   function editPost(idPost) {

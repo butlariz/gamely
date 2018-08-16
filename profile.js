@@ -116,12 +116,10 @@ function loadButton(){
 $(".publish").click(function(event){
   event.preventDefault();
   var newPost = $(".publish-input").val();
-  var newTagGame = $(".game-input").val();
   console.log(newTagGame);
   if (newTagGame != "") {
     var postFromDB = database.ref("posts/" + USER_ID).push({
       text: newPost,
-      gametag: newTagGame
     });
   } else {
     var postFromDB = database.ref("posts/" + USER_ID).push({
